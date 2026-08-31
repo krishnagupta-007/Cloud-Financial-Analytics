@@ -1,11 +1,22 @@
 package api
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
 )
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
+type HomeResponse struct {
+	Name    string `json:"name"`
+	Version string `json:"version"`
+	Status  string `json:"status"`
+}
 
-	fmt.Fprintln(w, "Welcome to the Cloud-Financial_Analytics API!")
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	response := HomeResponse{
+		Name:    "Cloud-Financial_Analytics",
+		Version: "1.0.0",
+		Status:  "Running",
+	}
+	json.NewEncoder(w).Encode(response)
 }
